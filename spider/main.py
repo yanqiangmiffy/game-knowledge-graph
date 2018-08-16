@@ -126,5 +126,6 @@ def get_game_info():
                                      game_intro, ''))
 
 
-
+    in_data.close()
+    out_data.close()
 get_game_info()
