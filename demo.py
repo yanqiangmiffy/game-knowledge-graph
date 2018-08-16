@@ -1,8 +1,5 @@
-import aiohttp, asyncio
-
-
-async def fn(num):
-    async with aiohttp.get(
-            url='https://www.liaoxuefeng.com/discuss/001409195742008d822b26cf3de46aea14f2b7378a1ba91000?page={}'.format(
-                    num)) as resp:
-        text = await resp.text()
+import re
+text="　2018年3月16日百炼智能正式在北京市海淀区注册成立，幸运地成为中国第一亿家市场主体，获得人民日报、新华网、中国日报、中国网、中国工商报、中国经营报等各大官方媒体的关注和报道。“才迈出了半步就获得这么广泛的关注，不做点成绩出来对不起大家刷的屏。”冯是聪博士乐呵呵地说道，“我们选五四青年节这天正式对外营业，也是双喜临门，一喜天使轮圆满让我们朝气蓬勃，二喜母校北京大学百廿校庆，让我们谨记守正创新引领未来” 冯是聪博士对百炼智能的未来胸有成竹。"
+pattern=re.compile(r'“(.*?)”',re.S)
+quotes=re.findall(pattern,text)
+print(quotes)

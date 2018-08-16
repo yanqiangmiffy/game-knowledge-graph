@@ -62,14 +62,14 @@ def get_game_info():
     csv_reader=csv.reader(in_data)
 
     info_file_path = os.path.join(config['project_dir'], 'data', 'game_info.csv')
-    out_data = open(info_file_path, 'w', encoding='utf-8',newline='')
+    out_data = open(info_file_path, 'a', encoding='utf-8',newline='')
     csv_writer = csv.writer(out_data)
     csv_writer.writerow(('game_id','game_name','game_rating','game_url',
                          'cn_title','en_title','pic_url','game_category',
                          'product_designer','release_date','file_size','game_tags',
                          'game_intro','down_url'))
     for i,row in enumerate(csv_reader):
-        if i>0:
+        if i>11491:
             game_id=row[0]
             game_name=row[1]
             game_rating=row[2]
@@ -84,15 +84,21 @@ def get_game_info():
             # 标题
             title_tag=html.xpath('//div[@class="newdown_l1_tit"]/h1[@class="newdown_l1_tit_cn"]')[0]
             cn_title=title_tag.xpath('string(.)')
-            en_title=html.xpath('//div[@class="newdown_l1_tit"]/div[@class="newdown_l1_tit_en"]/text()')[0]
+            try:
+                en_title=html.xpath('//div[@class="newdown_l1_tit"]/div[@class="newdown_l1_tit_en"]/text()')[0]
+            except:
+                en_title=''
 
             # 封面图片
             pic_url=html.xpath('//div[@class="newdown_l1"]/div[@class="newdown_l_con"]/div[@class="newdown_l_con_pic"]/img/@src')[0]
             img_dir=os.path.join(config['project_dir'],'images')
             safe_mkdir(img_dir)
             img_path=os.path.join(img_dir,str(game_id)+'.jpg')
-            if not os.path.exists(img_path):
-                urlretrieve(pic_url,img_path)
+            try:
+                if not os.path.exists(img_path):
+                    urlretrieve(pic_url,img_path)
+            except:
+                print(game_name+" 游戏图片不存在")
 
             # 基本信息
             infos=html.xpath('//div[@class="newdown_l1"]/div[@class="newdown_l_con"]/div[@class="newdown_l_con_con"]/div[@class="newdown_l_con_con_info"]')
@@ -125,6 +131,7 @@ def get_game_info():
                                      product_designer, release_date, file_size, game_tags,
                                      game_intro, ''))
 
+            time.sleep(1)
 
     in_data.close()
     out_data.close()
