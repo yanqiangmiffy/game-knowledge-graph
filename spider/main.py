@@ -11,9 +11,7 @@ config={
     'project_dir':os.path.abspath(os.path.join(os.getcwd(), "..")),
     'headers':{
         'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.106 Safari/537.36'
-    },
-    'conn':pymysql.connect(host="localhost",user="root",
-                      password="",database="game")
+    }
 }
 
 
@@ -69,7 +67,7 @@ def get_game_info():
                          'product_designer','release_date','file_size','game_tags',
                          'game_intro','down_url'))
     for i,row in enumerate(csv_reader):
-        if i>11491:
+        if i>0:
             game_id=row[0]
             game_name=row[1]
             game_rating=row[2]
@@ -135,4 +133,22 @@ def get_game_info():
 
     in_data.close()
     out_data.close()
-get_game_info()
+# get_game_info()
+from pymongo import MongoClient
+import pandas as pd
+conn=MongoClient('127.0.0.1',27017)
+db=conn.game # 连接game数据库，没有则自动创建
+my_set=db.game_info # 使用game_info集合，没有则自动创建
+info_file_path = os.path.join(config['project_dir'], 'data', 'game_info.csv')
+
+data=pd.read_csv(info_file_path)
+keys=data.columns
+
+
+
+for indexs in data.index:
+    row=dict(zip(keys,data.loc[indexs].values[0:-1]))
+    row['game_id']=int(row['game_id'])
+    row['game_rating']=int(row['game_rating'])  # pymongo 不能编码numpy.int64，这里需要强制转化为int类型
+    my_set.insert(row)
+
