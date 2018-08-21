@@ -17,6 +17,6 @@
 
 将爬取的信息存储到MongoDB，利用d3.js或者echart.js做前端可视化
 
-- 将Neo4j存储到图数据库
+- 将数据存储到Neo4j图数据库
 
 ![](https://github.com/yanqiangmiffy/game-knowledge-graph/blob/master/assets/neo4j.png)
