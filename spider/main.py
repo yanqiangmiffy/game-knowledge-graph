@@ -101,9 +101,9 @@ def get_game_info():
             # 基本信息
             infos=html.xpath('//div[@class="newdown_l1"]/div[@class="newdown_l_con"]/div[@class="newdown_l_con_con"]/div[@class="newdown_l_con_con_info"]')
             game_category=infos[0].xpath("string(.)")
-            product_designer=infos[0].xpath("string(.)")
-            release_date=infos[0].xpath("string(.)")
-            file_size=infos[0].xpath("string(.)")
+            product_designer=infos[1].xpath("string(.)")
+            release_date=infos[2].xpath("string(.)")
+            file_size=infos[3].xpath("string(.)")
 
             # 游戏标签
             tags_parent=html.xpath('//div[@class="newdown_l1"]/div[@class="newdown_l_con"]/div[@class="newdown_l_con_con"]/div[@class="newdown_l_con_con_tag"]/div')[0]
@@ -133,22 +133,5 @@ def get_game_info():
 
     in_data.close()
     out_data.close()
-# get_game_info()
-from pymongo import MongoClient
-import pandas as pd
-conn=MongoClient('127.0.0.1',27017)
-db=conn.game # 连接game数据库，没有则自动创建
-my_set=db.game_info # 使用game_info集合，没有则自动创建
-info_file_path = os.path.join(config['project_dir'], 'data', 'game_info.csv')
 
-data=pd.read_csv(info_file_path)
-keys=data.columns
-
-
-
-for indexs in data.index:
-    row=dict(zip(keys,data.loc[indexs].values[0:-1]))
-    row['game_id']=int(row['game_id'])
-    row['game_rating']=int(row['game_rating'])  # pymongo 不能编码numpy.int64，这里需要强制转化为int类型
-    my_set.insert(row)
-
+get_game_info()
