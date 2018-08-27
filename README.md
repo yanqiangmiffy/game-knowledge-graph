@@ -22,4 +22,6 @@
 ![](https://github.com/yanqiangmiffy/game-knowledge-graph/blob/master/assets/neo4j.png)
 
 ## 更多资料
-[【基于知识图谱的问答系统】](https://www.one-tab.com/page/d3hnbTWMS7egMb-9XCWEgA)
+- [【基于知识图谱的问答系统】](https://www.one-tab.com/page/d3hnbTWMS7egMb-9XCWEgA)
+
+- [基于电影知识图谱的智能问答系统](https://www.one-tab.com/page/i1WGem4iQQCziXNmAPZaJQ)
